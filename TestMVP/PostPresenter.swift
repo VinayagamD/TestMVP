@@ -14,15 +14,15 @@ class PostPresenter:IPostsPresenter {
 
     init( view: IPostsView){
         self.view = view;
-        model = PostModel(apiManager:ApiManager())
+        model = PostModel()
     }
 
     func loadPosts() {
-        model.getPosts(callback:{ (isSuccess, posts, error) in
+        model.getPosts(callBacks:{ (isSuccess, posts, error) in
             if isSuccess{
-                view.successPosts(posts: posts)
+                self.view.successPosts(posts: posts!)
             }else {
-                view.failed(error: error)
+                self.view.failed(error: error!)
             }
 
         })

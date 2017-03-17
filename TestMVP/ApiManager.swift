@@ -10,12 +10,12 @@ class ApiManager {
 
     typealias ApiCallback = (_ isSuccessful: Bool,_  JSON:Any?,  _ fail: ErrorModel?)->Void
 
-    func get(url: String, callback: @escaping ApiCallback){
+    func get(url: String, apiCallback: @escaping ApiCallback){
         Alamofire.request(url, method: .get).validate(statusCode: 200..<300 ).responseJSON{ response in
                     switch response.result{
                         case .success(let data) :
 
-                                callback(true,data,nil)
+                                apiCallback(true,data,nil)
 
                     case .failure(let error) :
                         let errorModel:ErrorModel = ErrorModel()
@@ -33,7 +33,7 @@ class ApiManager {
                             errorModel.errorCode = ErrorModel.UNKNOWN
                         }
                         errorModel.message = error.localizedDescription
-                        callback(false,nil,errorModel)
+                        apiCallback(false,nil,errorModel)
                         break
 
                     }

@@ -12,24 +12,24 @@ class PostModel:IPostsModel {
     let apiManager : ApiManager!
 
 
-    init(apiManager: ApiManager){
-        self.apiManager = apiManager
+    init(){
+        self.apiManager = ApiManager()
     }
 
-    func getPosts(callBack: callbacks) -> Void {
-        apiManager.get(url: URL.POSTS, callback:{(isSuccessful, JSON, error) in
+    func getPosts(callBacks:@escaping IPostsModel.callbacks) {
+        apiManager.get(url: URL.POSTS, apiCallback:{(isSuccessful, JSON, error) in
             if isSuccessful{
                 if let posts: Array<Post> = Mapper<Post>().mapArray(JSONArray: JSON as! [[String : Any]]) {
-                    callbacks(true, posts,nil)
+                    callBacks(true, posts,nil)
                 }else {
-                    error = ErrorModel()
-                    error.errorCode = ErrorModel.FORMAT
-                    error.message = "Posts Not Available"
-                    callbacks(false,nil,error)
+                   let errorModel = ErrorModel()
+                    errorModel.errorCode = ErrorModel.FORMAT
+                    errorModel.message = "Posts Not Available"
+                    callBacks(false,nil,errorModel)
                 }
 
             }else {
-                callbacks(false,nil,error)
+                callBacks(false,nil,error)
             }
         })
 

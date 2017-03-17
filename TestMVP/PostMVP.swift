@@ -19,6 +19,6 @@ protocol IPostsPresenter {
 
 protocol IPostsModel {
     typealias callbacks = (_ isSuccessful:Bool,_ success: Array<Post>?,_ fail: ErrorModel?)->Void
-    func getPosts(callback: callbacks ) -> Array<Post>?
+    func getPosts(callBacks: @escaping callbacks)
     
 }
